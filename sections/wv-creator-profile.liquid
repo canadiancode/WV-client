@@ -1,0 +1,746 @@
+{% assign is_creator = false %}
+{% if customer and customer.metafields.custom.creator_page %}
+  {% assign is_creator = true %}
+{% endif %}
+
+{% if is_creator %}
+
+<style>
+#wv-creator-profile {
+  padding: 1rem 0rem 3rem 0rem;
+}
+#wv-creator-profile .title {
+  font-family: var(--main-heading-font-family);
+  font-size: var(--main-heading-font-size);
+}
+
+/* Profile & background images */
+#wv-creator-profile .creator-profile-top .landscape-bg-container img {
+  height: 200px;
+  object-fit: cover;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container {
+  height: 50px;
+  padding: 0rem 20px;
+  position: relative;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container img {
+  height: 100px;
+  width: 100px;
+  transform: translateY(-50px);
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* Social links */
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 5px;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container a svg {
+  height: 50px;
+  width: 50px;
+  filter: grayscale(1);
+  transition: 0.3s ease-in-out;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container a svg:hover {
+  filter: grayscale(0);
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .instagram svg {
+  transform: scale(0.82);
+  opacity: 0.8;
+  transition: 0.3s ease-in-out;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .instagram svg:hover {
+  opacity: 1;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .tiktok svg {
+  transform: scale(0.71);
+  opacity: 0.7;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .tiktok svg:hover {
+  opacity: 1;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .x svg {
+  transform: scale(0.67);
+  opacity: 0.7;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .x svg:hover {
+  opacity: 1;
+}
+
+/* Creator name and bio */
+#wv-creator-profile .creator-profile-top .creator-profile-copy {
+  padding: 5px 10px;
+}
+#wv-creator-profile .creator-profile-top .creator-profile-copy h2 {
+  font-size: 19px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  min-height: 25px;
+}
+#wv-creator-profile .creator-profile-top .creator-profile-copy p {
+  margin-top: 5px;
+  min-height: 25px;
+}
+
+/* Settings */
+#wv-creator-profile .creator-profile-form .field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+#wv-creator-profile .creator-profile-form input[type="text"],
+#wv-creator-profile .creator-profile-form input[type="url"],
+#wv-creator-profile .creator-profile-form textarea {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+#wv-creator-profile .creator-profile-form input::placeholder,
+#wv-creator-profile .creator-profile-form textarea::placeholder {
+  color: #888888;
+  opacity: 0.8;
+}
+#display_name {
+  max-width: 240px;
+}
+#short_bio {
+  max-width: 340px;
+  resize: vertical;
+  max-height: 100px;
+  min-height: 70px;
+}
+
+/* text inputs */
+#creator-profile-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--off-black);
+}
+#creator-profile-form #display_name {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--off-black);
+  font-size: var(--small-font-size);
+}
+#creator-profile-form #short_bio {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--off-black);
+  resize: vertical;
+  font-size: var(--small-font-size);
+}
+#creator-profile-form input[type=file] {
+  cursor: pointer;
+  width: fit-content;
+  font-size: var(--small-font-size);
+}
+#creator-profile-form .field::after {
+  box-shadow: none !important;
+}
+
+
+/* link list */
+#wv-creator-profile .worn-links-container {
+ padding: 15px 0px; 
+}
+#worn-link {
+  font-size: var(--small-font-size) !important;
+}
+#wv-creator-profile .worn-links-container .top {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+#wv-creator-profile .worn-links-container .top svg {
+  height: 35px;
+  width: 35px;
+  cursor: pointer;
+  border: 1px solid;
+  padding: 4px;
+  border-radius: 5px;
+}
+#wv-creator-profile .worn-links-container .worn-links-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .template {
+  display: none !important;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .link-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  border: 1px solid;
+  padding: 5px 7px;
+  border-radius: 5px;
+  height: 40px;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .link-container p {
+  margin: 0;
+  padding: 0;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .link-container svg {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .link-container button {
+  cursor: pointer;
+}
+#wv-creator-profile .worn-links-container .worn-links-list .link-container button svg {
+  height: 15px;
+  width: 15px;
+  padding: 3px;
+  border-radius: 5px;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .social-other {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-self: center;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .unknown-link {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-self: center;
+  height: 40px;
+  width: 40px;
+  opacity: 0.7;
+  transition: 0.3s ease-in-out;
+}
+#wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .unknown-link:hover {
+  opacity: 1;
+}
+#creator-profile-form .product-cta button {
+  padding: 12px 30px;
+  border-radius: 5px;
+  background: var(--off-black);
+  color: var(--off-white);
+  font-weight: bold;
+  font-family: var(--main-heading-font-family);
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+  min-width: 200px;
+}
+#creator-profile-form .worn-links-container > .top > div {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+@media screen and (max-width: 580px) {
+  #wv-creator-profile .profile-picture-container {
+    position: unset !important;
+  }
+  #wv-creator-profile .creator-profile-top {
+    position: relative;
+  }
+  #wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container {
+    right: 10px;
+    top: 10px;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    margin-left: 10px;
+    justify-content: center;
+    padding: 0px 5px;
+  }
+  #wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container a svg {
+    height: 35px;
+    width: 35px;
+  }
+  #wv-creator-profile .creator-profile-top .profile-picture-container .social-links-container .unknown-link {
+    height: 30px;
+    width: 30px;
+  }
+  #creator-profile-form .worn-links-container > .top {
+    flex-direction: column;
+  }
+  #worn-link {
+    width: 60vw;
+  }
+  #creator-profile-form .product-cta button {
+    min-width: 140px;
+    font-size: 16px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 180px;
+    display: flex;
+    justify-content: center;
+  }
+}
+</style>
+
+<div id='wv-creator-profile'>
+
+  <!-- Top preview -->
+  <div class='creator-profile-top'>
+    <div class='landscape-bg-container'>
+      {% assign custom_bg = customer.metafields.custom.creator_profile_background_image %}
+      <img
+        class='landscape-bg'
+        src='{% if custom_bg and custom_bg.value %}{{ custom_bg.value | img_url: 'master' }}{% else %}https://cdn.shopify.com/s/files/1/0024/9551/2691/files/unknown-user-bg.png?v=1752425659{% endif %}'
+        alt='{{ customer.first_name }} profile background photo'
+      />
+    </div>
+    <div class='profile-picture-container'>
+
+      <div class='social-links-container'>
+        {% assign raw_links = customer.metafields.custom.social_links %}
+        {% assign links_array = raw_links | remove: '[' | remove: ']' | split: '","' %}
+        {% for link in links_array %}
+          {% assign clean_link = link | remove: '"' | strip %}
+          {% if clean_link contains 'onlyfans.com' %}
+            <a target='_blank' class='onlyfans' href='{{ clean_link }}'> <!-- Onlyfans -->
+              <svg viewBox="-20.62 0.53 820.42 555.49" xmlns="http://www.w3.org/2000/svg" width="2500" height="1650"><path d="M266.82.53c35 0 69.65 6.91 101.98 20.34s61.71 33.11 86.45 57.93c24.75 24.81 44.37 54.27 57.77 86.7a267.919 267.919 0 0 1 20.29 102.27c0 108.09-64.93 205.53-164.51 246.89s-214.2 18.5-290.41-57.93C2.18 380.3-20.62 265.36 20.62 165.5 61.87 65.64 159.04.53 266.82.53zm0 347.4c10.5.01 20.9-2.05 30.61-6.07s18.52-9.93 25.95-17.38 13.31-16.29 17.33-26.02a80.365 80.365 0 0 0 6.06-30.7c0-32.43-19.48-61.66-49.35-74.07s-64.26-5.55-87.12 17.38-29.7 57.41-17.33 87.37 41.53 49.49 73.86 49.49z" fill="#00aeef"/><path d="M566.35 200.96c67.71 19.54 147.63 0 147.63 0-23.19 101.55-96.75 165.15-202.81 172.89a266.766 266.766 0 0 1-40.48 65.86 266.208 266.208 0 0 1-57.62 51.43c-21.6 14.24-45.15 25.25-69.92 32.68s-50.48 11.19-76.33 11.18l79.95-254.81C428.95 18.28 471.08.54 665.98.54H799.8c-22.38 98.88-99.54 174.41-233.44 200.42z" fill="#008ccf"/></svg>
+            </a>
+          {% elsif clean_link contains 'instagram.com' %}
+            <a target='_blank' class='instagram' href='{{ clean_link }}'> <!-- Instagram -->
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="fi_15713420" viewBox="0 0 512 512"><defs><style>.cls-1{fill:url(#Nepojmenovaný_přechod_27);}.cls-2{fill:#fff;}</style><linearGradient gradientUnits="userSpaceOnUse" id="Nepojmenovaný_přechod_27" x1="328.27" x2="183.73" y1="508.05" y2="3.95"><stop offset="0" stop-color="#ffdb73"></stop><stop offset="0.08" stop-color="#fdad4e"></stop><stop offset="0.15" stop-color="#fb832e"></stop><stop offset="0.19" stop-color="#fa7321"></stop><stop offset="0.23" stop-color="#f6692f"></stop><stop offset="0.37" stop-color="#e84a5a"></stop><stop offset="0.48" stop-color="#e03675"></stop><stop offset="0.55" stop-color="#dd2f7f"></stop><stop offset="0.68" stop-color="#b43d97"></stop><stop offset="0.97" stop-color="#4d60d4"></stop><stop offset="1" stop-color="#4264db"></stop></linearGradient></defs><title></title><rect class="cls-1" height="465.06" rx="107.23" ry="107.23" width="465.06" x="23.47" y="23.47"></rect><path class="cls-2" d="M331,115.22a66.92,66.92,0,0,1,66.65,66.65V330.13A66.92,66.92,0,0,1,331,396.78H181a66.92,66.92,0,0,1-66.65-66.65V181.87A66.92,66.92,0,0,1,181,115.22H331m0-31H181c-53.71,0-97.66,44-97.66,97.66V330.13c0,53.71,44,97.66,97.66,97.66H331c53.71,0,97.66-44,97.66-97.66V181.87c0-53.71-43.95-97.66-97.66-97.66Z"></path><path class="cls-2" d="M256,198.13A57.87,57.87,0,1,1,198.13,256,57.94,57.94,0,0,1,256,198.13m0-31A88.87,88.87,0,1,0,344.87,256,88.87,88.87,0,0,0,256,167.13Z"></path><circle class="cls-2" cx="346.81" cy="163.23" r="21.07"></circle></svg>
+            </a>
+          {% elsif clean_link contains 'tiktok.com' %}
+            <a target='_blank' class='tiktok' href='{{ clean_link }}'> <!-- TikTok -->
+              <svg id="fi_3046121" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><g><g fill="#f00044"><path d="m182.1 265.4c-40.6 0-73.4 32.8-72.8 73 .4 25.8 14.6 48.2 35.5 60.7-7.1-10.9-11.3-23.8-11.5-37.7-.6-40.2 32.2-73 72.8-73 8 0 15.7 1.3 22.9 3.6v-80.5c-7.5-1.1-15.2-1.7-22.9-1.7-.4 0-.7 0-1.1 0v59.2c-7.2-2.3-14.9-3.6-22.9-3.6z"></path><path d="m357.6 24h-.6-20.8c6 30.1 22.9 56.3 46.5 74.1-15.5-20.5-24.9-46.1-25.1-74.1z"></path><path d="m480 146.5c-7.9 0-15.5-.8-23-2.2v57.7c-27.2 0-53.6-5.3-78.4-15.9-16-6.8-30.9-15.5-44.6-26l.4 177.9c-.2 40-16 77.5-44.6 105.8-23.3 23-52.8 37.7-84.8 42.4-7.5 1.1-15.2 1.7-22.9 1.7-34.2 0-66.8-11.1-93.3-31.6 3 3.6 6.2 7.1 9.7 10.5 28.8 28.4 67 44.1 107.7 44.1 7.7 0 15.4-.6 22.9-1.7 32-4.7 61.5-19.4 84.8-42.4 28.6-28.3 44.4-65.8 44.6-105.8l-1.5-177.9c13.6 10.5 28.5 19.3 44.6 26 24.9 10.5 51.3 15.9 78.4 15.9"></path></g><path d="m98.2 254.1c28.5-28.3 66.4-44 106.8-44.3v-21.3c-7.5-1.1-15.2-1.7-22.9-1.7-40.8 0-79.1 15.7-107.9 44.3-28.3 28.1-44.5 66.5-44.4 106.4 0 40.2 15.9 77.9 44.6 106.4 4.6 4.5 9.3 8.7 14.3 12.5-22.6-26.9-34.9-60.5-35-95.9.1-39.9 16.2-78.3 44.5-106.4z" fill="#08fff9"></path><path d="m457 144.3v-21.4h-.2c-27.8 0-53.4-9.2-74-24.8 17.9 23.6 44.1 40.4 74.2 46.2z" fill="#08fff9"></path><path d="m202 432.2c9.5.5 18.6-.8 27-3.5 29-9.5 49.9-36.5 49.9-68.3l.1-119v-217.4h57.2c-1.5-7.5-2.3-15.1-2.4-23h-78.8v217.3l-.1 119c0 31.8-20.9 58.8-49.9 68.3-8.4 2.8-17.5 4.1-27 3.5-12.1-.7-23.4-4.3-33.2-10.1 12.3 19 33.3 31.9 57.2 33.2z" fill="#08fff9"></path><path d="m205 486.2c32-4.7 61.5-19.4 84.8-42.4 28.6-28.3 44.4-65.8 44.6-105.8l-.4-177.9c13.6 10.5 28.5 19.3 44.6 26 24.9 10.5 51.3 15.9 78.4 15.9v-57.7c-30.1-5.8-56.3-22.6-74.2-46.2-23.6-17.8-40.6-44-46.5-74.1h-57.3v217.3l-.1 119c0 31.8-20.9 58.8-49.9 68.3-8.4 2.8-17.5 4.1-27 3.5-24-1.3-44.9-14.2-57.2-33.1-20.9-12.4-35.1-34.9-35.5-60.7-.6-40.2 32.2-73 72.8-73 8 0 15.7 1.3 22.9 3.6v-59.2c-40.4.3-78.3 16-106.8 44.3-28.3 28.1-44.5 66.5-44.4 106.3 0 35.4 12.3 69 35 95.9 26.6 20.5 59.1 31.6 93.3 31.6 7.7.1 15.4-.5 22.9-1.6z"></path></g></svg>
+            </a>
+          {% elsif clean_link contains 'x.com' %}
+            <a target='_blank' class='x' href='{{ clean_link }}'> <!-- X -->
+              <svg id="fi_5968830" enable-background="new 0 0 1227 1227" viewBox="0 0 1227 1227" xmlns="http://www.w3.org/2000/svg"><path d="m654.53 592.55 276.12 394.95h-113.32l-225.32-322.28v-.02l-33.08-47.31-263.21-376.5h113.32l212.41 303.85z"></path><path d="m1094.42 0h-961.84c-73.22 0-132.58 59.36-132.58 132.58v961.84c0 73.22 59.36 132.58 132.58 132.58h961.84c73.22 0 132.58-59.36 132.58-132.58v-961.84c0-73.22-59.36-132.58-132.58-132.58zm-311.8 1040.52-228.01-331.84-285.47 331.84h-73.78l326.49-379.5-326.49-475.17h249.02l215.91 314.23 270.32-314.23h73.78l-311.33 361.9h-.02l338.6 492.77z"></path><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+            </a>
+          {% else %}
+            <a target='_blank' class='social-other' href='{{ clean_link }}'> <!-- all other social links -->
+              <svg class='unknown-link' id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+            
+      {% assign profile_picture = customer.metafields.custom.creator_profile_picture %}
+      <img
+        class='profile-picture'
+        src='{% if profile_picture and profile_picture.value %}{{ profile_picture.value | img_url: 'master' }}{% else %}https://cdn.shopify.com/s/files/1/0024/9551/2691/files/unknown-user.png?v=1752425659{% endif %}'
+        alt='{{ customer.first_name }} profile picture'
+      />
+            
+    </div>
+    <div class='creator-profile-copy'>
+      <h2>{{ customer.metafields.custom.creator_display_name }}</h2>
+      <p>{{ customer.metafields.custom.creator_short_bio }}</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Inputs -->
+  <h1 class="title">Edit Your Creator Profile</h1>
+  <div class="creator-profile-form">
+  
+    <form id="creator-profile-form" method="POST" action="/apps/your-endpoint-url" enctype="multipart/form-data">
+      <div class="field">
+        <label for="display_name">Display Name</label>
+        <input value="{{ customer.metafields.custom.creator_display_name }}" type="text" name="display_name" id="display_name" required placeholder="{{ customer.metafields.custom.creator_display_name }}">
+      </div>
+  
+      <div class="field">
+        <label for="short_bio">Short Bio</label>
+        <textarea name="short_bio" id="short_bio" rows="3" placeholder="Enter your bio">{{ customer.metafields.custom.creator_short_bio }}</textarea>
+      </div>
+  
+      <div class="field">
+        <label for="profile_image">Profile Image</label>
+        <input type="file" name="profile_image" id="profile_image" accept="image/*">
+      </div>
+  
+      <div class="field">
+        <label for="background_image">Background Image</label>
+        <input type="file" name="background_image" id="background_image" accept="image/*">
+      </div>
+  
+      <div class='worn-links-container input-container'>
+        <div class='top'>
+          <label for="worn-link">Links to socials</label>
+          <div>
+            <input id='worn-link' type='url' name='work-link' />
+            <svg id='add-link-btn' version="1.1" id="fi_814208" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;" xml:space="preserve"> <g> <g> <path d="M424,184H296V56c0-30.928-25.072-56-56-56c-30.928,0-56,25.072-56,56v128H56c-30.928,0-56,25.072-56,56 c0,30.928,25.072,56,56,56h128v128c0,30.928,25.072,56,56,56c30.928,0,56-25.072,56-56V296h128c30.928,0,56-25.072,56-56 C480,209.072,454.928,184,424,184z M424,280H288c-4.418,0-8,3.582-8,8v136c0,22.091-17.909,40-40,40c-22.091,0-40-17.909-40-40 V288c0-4.418-3.582-8-8-8H56c-22.091,0-40-17.909-40-40s17.909-40,40-40h136c4.418,0,8-3.582,8-8V56c0-22.091,17.909-40,40-40 c22.091,0,40,17.909,40,40v136c0,4.418,3.582,8,8,8h136c22.091,0,40,17.909,40,40S446.091,280,424,280z"></path> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+          </div>
+        </div>
+        <div class='worn-links-list'>
+    
+          <div class='link-container template'>
+            <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+            <p>onlyfans.com...</p>
+            <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+          </div>
+    
+          {% assign raw_links = customer.metafields.custom.social_links %}
+          {% assign links_array = raw_links | remove: '[' | remove: ']' | split: '","' %}
+          {% for link in links_array %}
+            {% assign clean_link = link | remove: '"' | strip %}
+            {% assign no_protocol = clean_link | remove: 'https://' | remove: 'http://' %}
+            {% assign domain_parts = no_protocol | split: '/' %}
+            {% assign root_domain = domain_parts[0] %}
+            {% if clean_link contains 'onlyfans.com' %}
+              <div class='link-container active-link-container' aria-label='{{ clean_link }}'>
+                <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+                <p>{{ root_domain }}</p>
+                <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+              </div>
+            {% elsif clean_link contains 'instagram.com' %}
+              <div class='link-container active-link-container'  aria-label='{{ clean_link }}'>
+                <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+                <p>{{ root_domain }}</p>
+                <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+              </div>
+            {% elsif clean_link contains 'tiktok.com' %}
+              <div class='link-container active-link-container'  aria-label='{{ clean_link }}'>
+                <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+                <p>{{ root_domain }}</p>
+                <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+              </div>
+            {% elsif clean_link contains 'x.com' %}
+              <div class='link-container active-link-container'  aria-label='{{ clean_link }}'>
+                <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+                <p>{{ root_domain }}</p>
+                <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+              </div>
+            {% else %}
+              <div class='link-container active-link-container'  aria-label='{{ clean_link }}'>
+                <svg id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+                <p>{{ root_domain }}</p>
+                <button><svg id="fi_2961937" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m4.59 59.41a2 2 0 0 0 2.83 0l24.58-24.58 24.59 24.58a2 2 0 0 0 2.83-2.83l-24.59-24.58 24.58-24.59a2 2 0 0 0 -2.83-2.83l-24.58 24.59-24.59-24.58a2 2 0 0 0 -2.82 2.82l24.58 24.59-24.58 24.59a2 2 0 0 0 0 2.82z"></path></svg></button>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+  
+      <div class="product-cta">
+        <button type="submit">Save Profile</button>
+      </div>
+    </form>
+  </div>
+  
+</div>
+
+<script>
+
+// change display name live
+document.querySelector('#display_name').addEventListener('change', (e) => {
+  const value = e.target.value;
+  document.querySelector('#wv-creator-profile .creator-profile-top .creator-profile-copy h2').textContent = value;
+});
+
+// change short bio live
+document.querySelector('#short_bio').addEventListener('change', (e) => {
+  const value = e.target.value;
+  document.querySelector('#wv-creator-profile .creator-profile-top .creator-profile-copy p').textContent = value;
+});
+
+// Prevent social delete buttons from submitting form and remove related links
+document.addEventListener('DOMContentLoaded', () => {
+  // Get all delete buttons in the social links list
+  const socialDeleteBtns = document.querySelectorAll('#creator-profile-form .worn-links-container .worn-links-list .link-container button');
+
+  // Get all social preview links shown elsewhere on the page
+  const socialPreviewBtns = document.querySelectorAll('.creator-profile-top .social-links-container a');
+
+  socialDeleteBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault(); // Stop button from submitting form
+
+      // Find the parent container of the button
+      const parentDiv = e.target.closest('.link-container');
+      if (!parentDiv) return;
+
+      // Get the original URL from the aria-label attribute
+      const url = parentDiv.getAttribute('aria-label');
+
+      // Remove any preview buttons with a matching href
+      socialPreviewBtns.forEach(link => {
+        if (link.href === url) {
+          link.remove();
+        }
+      });
+      // Remove the link container from the form
+      parentDiv.remove();
+    });
+  });
+});
+  
+// global profile and background images before upload
+const globalProfileImages = {
+  profile: null,
+  background: null
+};
+
+// save and preview profile picture
+document.getElementById('profile_image').addEventListener('change', (e) => {
+  
+  const file = e.target.files[0];
+  if (!file) return;
+
+  globalProfileImages.profile = file;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    document.querySelector('#wv-creator-profile .creator-profile-top .profile-picture-container .profile-picture').src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// save and preview background picture
+document.getElementById('background_image').addEventListener('change', (e) => {
+  
+  const file = e.target.files[0];
+  if (!file) return;
+
+  globalProfileImages.background = file;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    document.querySelector('#wv-creator-profile .creator-profile-top .landscape-bg-container .landscape-bg').src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+// adding links to the link list
+const linkInput = document.querySelector('#wv-creator-profile .worn-links-container .top input');
+const newLinkTemplate = document.querySelector('#wv-creator-profile .worn-links-container .template');  
+const linksListContainer = document.querySelector('#wv-creator-profile .worn-links-list');  
+document.getElementById('add-link-btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  const link = linkInput.value.trim();
+  console.log(link);
+  if (!link || link.value ==='') {
+    linkInput.style.filter = 'brightness(0.5)';
+  } else {
+
+    // adding the link to the form display
+    linkInput.style.filter = 'brightness(1)';
+
+    // create new link
+    const newLinkContainer = newLinkTemplate.cloneNode(true);
+    
+    // newLinkContainer.setAttribute('aria-label', `${linkInput.value}`);
+    let normalizedLink = linkInput.value.trim();
+    if (!/^https?:\/\//i.test(normalizedLink)) {
+      normalizedLink = 'https://' + normalizedLink;
+    }
+    newLinkContainer.setAttribute('aria-label', normalizedLink);
+    
+    const displayedText = extractRootDomain(linkInput.value);
+    newLinkContainer.querySelector('p').textContent = displayedText;
+    newLinkContainer.classList.add('user-added-link');
+
+    // remove template class & add ability to remove
+    newLinkContainer.classList.remove('template');
+    newLinkContainer.addEventListener('click', () => {
+      newLinkContainer.remove();
+    });
+  
+    // append to list & remove input value
+    linksListContainer.appendChild(newLinkContainer);
+    linkInput.value = '';
+  };
+
+  // adding the icon to the preview
+  let prebuiltUsed = false;
+  // console.log('link: ', link);
+  let normalizedLink = link;
+  if (!/^https?:\/\//i.test(link)) {
+    normalizedLink = 'https://' + link;
+  };
+  // console.log('normalizedLink: ', normalizedLink);
+
+  // add preview icon for onlyfans
+  if (link.includes('onlyfans.com')) {
+    prebuiltUsed = true;
+    const onlyfansIcon = document.createElement('a');
+    onlyfansIcon.setAttribute('target', '_blank');
+    onlyfansIcon.setAttribute('href', normalizedLink);
+    onlyfansIcon.classList.add('onlyfans');
+    onlyfansIcon.innerHTML = `
+      <svg viewBox="-20.62 0.53 820.42 555.49" xmlns="http://www.w3.org/2000/svg" width="2500" height="1650"><path d="M266.82.53c35 0 69.65 6.91 101.98 20.34s61.71 33.11 86.45 57.93c24.75 24.81 44.37 54.27 57.77 86.7a267.919 267.919 0 0 1 20.29 102.27c0 108.09-64.93 205.53-164.51 246.89s-214.2 18.5-290.41-57.93C2.18 380.3-20.62 265.36 20.62 165.5 61.87 65.64 159.04.53 266.82.53zm0 347.4c10.5.01 20.9-2.05 30.61-6.07s18.52-9.93 25.95-17.38 13.31-16.29 17.33-26.02a80.365 80.365 0 0 0 6.06-30.7c0-32.43-19.48-61.66-49.35-74.07s-64.26-5.55-87.12 17.38-29.7 57.41-17.33 87.37 41.53 49.49 73.86 49.49z" fill="#00aeef"/><path d="M566.35 200.96c67.71 19.54 147.63 0 147.63 0-23.19 101.55-96.75 165.15-202.81 172.89a266.766 266.766 0 0 1-40.48 65.86 266.208 266.208 0 0 1-57.62 51.43c-21.6 14.24-45.15 25.25-69.92 32.68s-50.48 11.19-76.33 11.18l79.95-254.81C428.95 18.28 471.08.54 665.98.54H799.8c-22.38 98.88-99.54 174.41-233.44 200.42z" fill="#008ccf"/></svg>
+    `;
+    document.querySelector('.social-links-container')?.appendChild(onlyfansIcon);
+  };
+
+  // add preview icon for instagram
+  if (link.includes('instagram.com')) {
+    prebuiltUsed = true;
+    const instagramIcon = document.createElement('a');
+    instagramIcon.setAttribute('target', '_blank');
+    instagramIcon.setAttribute('href', normalizedLink);
+    instagramIcon.classList.add('instagram');
+    instagramIcon.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="fi_15713420" viewBox="0 0 512 512"><defs><style>.cls-1{fill:url(#Nepojmenovaný_přechod_27);}.cls-2{fill:#fff;}</style><linearGradient gradientUnits="userSpaceOnUse" id="Nepojmenovaný_přechod_27" x1="328.27" x2="183.73" y1="508.05" y2="3.95"><stop offset="0" stop-color="#ffdb73"></stop><stop offset="0.08" stop-color="#fdad4e"></stop><stop offset="0.15" stop-color="#fb832e"></stop><stop offset="0.19" stop-color="#fa7321"></stop><stop offset="0.23" stop-color="#f6692f"></stop><stop offset="0.37" stop-color="#e84a5a"></stop><stop offset="0.48" stop-color="#e03675"></stop><stop offset="0.55" stop-color="#dd2f7f"></stop><stop offset="0.68" stop-color="#b43d97"></stop><stop offset="0.97" stop-color="#4d60d4"></stop><stop offset="1" stop-color="#4264db"></stop></linearGradient></defs><title></title><rect class="cls-1" height="465.06" rx="107.23" ry="107.23" width="465.06" x="23.47" y="23.47"></rect><path class="cls-2" d="M331,115.22a66.92,66.92,0,0,1,66.65,66.65V330.13A66.92,66.92,0,0,1,331,396.78H181a66.92,66.92,0,0,1-66.65-66.65V181.87A66.92,66.92,0,0,1,181,115.22H331m0-31H181c-53.71,0-97.66,44-97.66,97.66V330.13c0,53.71,44,97.66,97.66,97.66H331c53.71,0,97.66-44,97.66-97.66V181.87c0-53.71-43.95-97.66-97.66-97.66Z"></path><path class="cls-2" d="M256,198.13A57.87,57.87,0,1,1,198.13,256,57.94,57.94,0,0,1,256,198.13m0-31A88.87,88.87,0,1,0,344.87,256,88.87,88.87,0,0,0,256,167.13Z"></path><circle class="cls-2" cx="346.81" cy="163.23" r="21.07"></circle></svg>
+    `;
+    document.querySelector('.social-links-container')?.appendChild(instagramIcon);
+  };
+
+  // add preview icon for tiktok
+  if (link.includes('tiktok.com')) {
+    prebuiltUsed = true;
+    const tiktokIcon = document.createElement('a');
+    tiktokIcon.setAttribute('target', '_blank');
+    tiktokIcon.setAttribute('href', normalizedLink);
+    tiktokIcon.classList.add('tiktok');
+    tiktokIcon.innerHTML = `
+      <svg id="fi_3046121" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><g><g fill="#f00044"><path d="m182.1 265.4c-40.6 0-73.4 32.8-72.8 73 .4 25.8 14.6 48.2 35.5 60.7-7.1-10.9-11.3-23.8-11.5-37.7-.6-40.2 32.2-73 72.8-73 8 0 15.7 1.3 22.9 3.6v-80.5c-7.5-1.1-15.2-1.7-22.9-1.7-.4 0-.7 0-1.1 0v59.2c-7.2-2.3-14.9-3.6-22.9-3.6z"></path><path d="m357.6 24h-.6-20.8c6 30.1 22.9 56.3 46.5 74.1-15.5-20.5-24.9-46.1-25.1-74.1z"></path><path d="m480 146.5c-7.9 0-15.5-.8-23-2.2v57.7c-27.2 0-53.6-5.3-78.4-15.9-16-6.8-30.9-15.5-44.6-26l.4 177.9c-.2 40-16 77.5-44.6 105.8-23.3 23-52.8 37.7-84.8 42.4-7.5 1.1-15.2 1.7-22.9 1.7-34.2 0-66.8-11.1-93.3-31.6 3 3.6 6.2 7.1 9.7 10.5 28.8 28.4 67 44.1 107.7 44.1 7.7 0 15.4-.6 22.9-1.7 32-4.7 61.5-19.4 84.8-42.4 28.6-28.3 44.4-65.8 44.6-105.8l-1.5-177.9c13.6 10.5 28.5 19.3 44.6 26 24.9 10.5 51.3 15.9 78.4 15.9"></path></g><path d="m98.2 254.1c28.5-28.3 66.4-44 106.8-44.3v-21.3c-7.5-1.1-15.2-1.7-22.9-1.7-40.8 0-79.1 15.7-107.9 44.3-28.3 28.1-44.5 66.5-44.4 106.4 0 40.2 15.9 77.9 44.6 106.4 4.6 4.5 9.3 8.7 14.3 12.5-22.6-26.9-34.9-60.5-35-95.9.1-39.9 16.2-78.3 44.5-106.4z" fill="#08fff9"></path><path d="m457 144.3v-21.4h-.2c-27.8 0-53.4-9.2-74-24.8 17.9 23.6 44.1 40.4 74.2 46.2z" fill="#08fff9"></path><path d="m202 432.2c9.5.5 18.6-.8 27-3.5 29-9.5 49.9-36.5 49.9-68.3l.1-119v-217.4h57.2c-1.5-7.5-2.3-15.1-2.4-23h-78.8v217.3l-.1 119c0 31.8-20.9 58.8-49.9 68.3-8.4 2.8-17.5 4.1-27 3.5-12.1-.7-23.4-4.3-33.2-10.1 12.3 19 33.3 31.9 57.2 33.2z" fill="#08fff9"></path><path d="m205 486.2c32-4.7 61.5-19.4 84.8-42.4 28.6-28.3 44.4-65.8 44.6-105.8l-.4-177.9c13.6 10.5 28.5 19.3 44.6 26 24.9 10.5 51.3 15.9 78.4 15.9v-57.7c-30.1-5.8-56.3-22.6-74.2-46.2-23.6-17.8-40.6-44-46.5-74.1h-57.3v217.3l-.1 119c0 31.8-20.9 58.8-49.9 68.3-8.4 2.8-17.5 4.1-27 3.5-24-1.3-44.9-14.2-57.2-33.1-20.9-12.4-35.1-34.9-35.5-60.7-.6-40.2 32.2-73 72.8-73 8 0 15.7 1.3 22.9 3.6v-59.2c-40.4.3-78.3 16-106.8 44.3-28.3 28.1-44.5 66.5-44.4 106.3 0 35.4 12.3 69 35 95.9 26.6 20.5 59.1 31.6 93.3 31.6 7.7.1 15.4-.5 22.9-1.6z"></path></g></svg>
+    `;
+    document.querySelector('.social-links-container')?.appendChild(tiktokIcon);
+  };
+
+  // add preview icon for x
+  if (link.includes('x.com')) {
+    prebuiltUsed = true;
+    const xIcon = document.createElement('a');
+    xIcon.setAttribute('target', '_blank');
+    xIcon.setAttribute('href', normalizedLink);
+    xIcon.classList.add('x');
+    xIcon.innerHTML = `
+      <svg id="fi_5968830" enable-background="new 0 0 1227 1227" viewBox="0 0 1227 1227" xmlns="http://www.w3.org/2000/svg"><path d="m654.53 592.55 276.12 394.95h-113.32l-225.32-322.28v-.02l-33.08-47.31-263.21-376.5h113.32l212.41 303.85z"></path><path d="m1094.42 0h-961.84c-73.22 0-132.58 59.36-132.58 132.58v961.84c0 73.22 59.36 132.58 132.58 132.58h961.84c73.22 0 132.58-59.36 132.58-132.58v-961.84c0-73.22-59.36-132.58-132.58-132.58zm-311.8 1040.52-228.01-331.84-285.47 331.84h-73.78l326.49-379.5-326.49-475.17h249.02l215.91 314.23 270.32-314.23h73.78l-311.33 361.9h-.02l338.6 492.77z"></path><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+    `;
+    document.querySelector('.social-links-container')?.appendChild(xIcon);
+  };
+
+  if (!prebuiltUsed) {
+    const otherIcon = document.createElement('a');
+    otherIcon.setAttribute('target', '_blank');
+    otherIcon.setAttribute('href', normalizedLink);
+    otherIcon.classList.add('other-link');
+    otherIcon.innerHTML = `
+      <svg class='unknown-link' id="fi_2985013" enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512" xmlns="http://www.w3.org/2000/svg"><g><g id="ARC_176_"><g><path d="m36.243 29.758c-.512 0-1.024-.195-1.414-.586-3.119-3.119-8.194-3.12-11.314 0-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.679-4.68 12.292-4.679 16.97 0 .781.781.781 2.047 0 2.828-.39.391-.903.586-1.414.586z"></path></g></g><g id="ARC_175_"><g><path d="m34.829 41.167c-3.073 0-6.146-1.17-8.485-3.509-.781-.781-.781-2.047 0-2.828.78-.781 2.048-.781 2.828 0 3.119 3.119 8.194 3.12 11.314 0 .78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.34 2.339-5.413 3.509-8.485 3.509z"></path></g></g><g id="LINE_273_"><g><path d="m41.899 38.243c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.172c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.172c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_272_"><g><path d="m25.071 55.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l6.245-6.245c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-6.245 6.245c-.39.391-.902.586-1.414.586z"></path></g></g><g id="LINE_271_"><g><path d="m10.929 40.929c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828l11.172-11.171c.781-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828l-11.172 11.171c-.391.39-.903.586-1.414.586z"></path></g></g><g id="LINE_270_"><g><path d="m32.684 19.175c-.512 0-1.023-.195-1.414-.585-.781-.781-.781-2.047 0-2.829l6.245-6.246c.781-.781 2.047-.781 2.829 0 .781.781.781 2.047 0 2.829l-6.245 6.246c-.391.389-.904.585-1.415.585z"></path></g></g><g id="ARC_174_"><g><path d="m18 57.935c-3.093 0-6.186-1.15-8.485-3.45-4.6-4.6-4.6-12.371 0-16.971.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-3.066 3.066-3.066 8.248 0 11.314s8.248 3.066 11.314 0c.78-.781 2.048-.781 2.828 0 .781.781.781 2.047 0 2.828-2.299 2.301-5.392 3.451-8.485 3.451z"></path></g></g><g id="ARC_173_"><g><path d="m53.071 27.071c-.512 0-1.024-.195-1.414-.586-.781-.781-.781-2.047 0-2.828 3.066-3.066 3.066-8.248 0-11.314s-8.248-3.066-11.314 0c-.78.781-2.048.781-2.828 0-.781-.781-.781-2.047 0-2.828 4.6-4.6 12.371-4.6 16.971 0s4.6 12.371 0 16.971c-.391.39-.903.585-1.415.585z"></path></g></g></g></svg>
+    `;
+    document.querySelector('.social-links-container')?.appendChild(otherIcon);
+  };
+
+  const deleteBtn = newLinkContainer.querySelector('button');
+  deleteBtn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    newLinkContainer.remove();
+    
+    // remove matching preview icon
+    document.querySelectorAll('.social-links-container a').forEach(icon => {
+      if (icon.getAttribute('href') === normalizedLink) {
+        icon.remove();
+      }
+    });
+  });
+  
+});
+
+// sending to the server
+document.getElementById('creator-profile-form').addEventListener('submit', async function(e) {
+  
+  e.preventDefault();
+
+  const form = e.target;
+
+  const formData = new FormData();
+
+  // Append standard text fields
+  formData.append('id', "{{ customer.id | split: '/' | last }}");
+  formData.append('display_name', form.querySelector('#display_name').value);
+  formData.append('short_bio', form.querySelector('#short_bio').value);
+
+  // Append images (from global or from direct form input if needed)
+  if (globalProfileImages.profile) {
+    console.log("📸 Profile image MIME:", globalProfileImages.profile?.type);
+    formData.append('profile_image', globalProfileImages.profile);
+  };
+
+  if (globalProfileImages.background) {
+    console.log("📸 Profile image MIME:", globalProfileImages.background?.type);
+    formData.append('background_image', globalProfileImages.background);
+  };
+
+  // Append social links from .user-added-link elements
+  const linkContainers = form.querySelectorAll('.user-added-link');
+  linkContainers.forEach(linkEl => {
+    const ariaLabel = linkEl.getAttribute('aria-label');
+    if (ariaLabel) formData.append('links', ariaLabel);
+  });
+
+  // Debug log
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  };
+
+  // Update button UI
+  form.querySelector('button[type="submit"]').textContent = 'Saving...';
+  console.log('Sending the form data: ', formData);
+
+  try {
+    const response = await fetch('https://server.wornvault.com/post-creator-object', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const status = await response.json();
+    console.log('Server Response:', status);
+
+    if (status.status === 'success') {
+      form.querySelector('button[type="submit"]').textContent = 'Saved!';
+      setTimeout(() => {
+        form.querySelector('button[type="submit"]').textContent = 'Save Profile';
+      }, 3000);
+    } else {
+      form.querySelector('button[type="submit"]').textContent = 'Error saving';
+    };
+  } catch (err) {
+    console.error('Failed to save creator profile:', err);
+  }
+});
+
+
+// Callback functions //
+
+function extractRootDomain(url) {
+  try {
+    // Add protocol if missing to use URL constructor safely
+    if (!url.startsWith('http')) {
+      url = 'https://' + url;
+    }
+
+    const parsed = new URL(url);
+    return parsed.hostname + '/';
+  } catch (err) {
+    console.warn('Invalid URL:', url);
+    return '';
+  }
+};
+
+</script>
+            
+{% elsif customer %}
+  {% render 'creator-signup-form' %}
+{% else %}
+  {% render 'creator-login-page' %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "WV Creator Profile",
+    "settings": [],
+    "presets": [
+      {
+        "name": "WV Creator Profile",
+      }
+    ]
+  }
+{% endschema %}

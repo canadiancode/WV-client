@@ -1,0 +1,34 @@
+{% comment %}
+  Snippet: product-card.liquid
+  Usage: {% render 'product-card', product: product, clean_tags: clean_tags %}
+{% endcomment %}
+
+{% assign matched = false %}
+{% for tag in clean_tags %}
+  {% if product.tags contains tag and product.available %}
+    {% assign matched = true %}
+  {% endif %}
+{% endfor %}
+
+{% if clean_tags == blank or matched %}
+  <li class="item-container">
+    <a href="{{ product.url }}">
+      <div class="link-list">
+        {% if product.metafields.custom.links_to_online_content %}
+          {% assign links = product.metafields.custom.links_to_online_content.value %}
+          {% for link in links %}
+            <svg id="fi_2985013" ...>...</svg>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="product-img-container">
+        <img height="160" width="160" src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.title }}">
+      </div>
+      <div class="info-container">
+        <p>{{ product.vendor }}</p>
+        <h5>{{ product.title }}</h5>
+        <h6>{{ product.price | money }}</h6>
+      </div>
+    </a>
+  </li>
+{% endif %}

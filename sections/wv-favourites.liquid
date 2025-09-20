@@ -1,0 +1,200 @@
+{% comment %} Look within the snippets/wv-favourites-js.liquid file for local storage {% endcomment %}
+
+<style>
+#wv-customer-favourites {
+  padding: 1rem 0rem;
+}
+#wv-customer-favourites .title {
+  font-family: var(--main-heading-font-family);
+  font-size: var(--main-heading-font-size);
+}
+#wv-customer-favourites .empty {
+  padding: 10px 20px;
+}
+#wv-customer-favourites .favourites-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+#wv-customer-favourites .favourite-item {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 15px -10px black;
+  position: relative;
+  height: 180px;
+  width: 180px;
+  justify-content: flex-end;
+  padding: 10px;
+  border-radius: 5px;
+  background-size: contain;
+  cursor: pointer;
+}
+#wv-customer-favourites .favourite-item img {
+  height: 160px;
+  position: absolute;
+  top: 50%;
+  width: 160px;
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;  
+  border-radius: 5px;
+  object-fit: cover;
+  z-index: -1;
+}
+#wv-customer-favourites .favourite-item .favourite-title {
+    color: var(--off-black);
+    font-weight: 700;
+    opacity: 1;
+    z-index: 2;
+}
+#wv-customer-favourites .favourite-item h5 {
+  font-size: 17px;
+}
+#wv-customer-favourites .favourite-item h5,
+#wv-customer-favourites .favourite-item span {
+  color: var(--off-black);
+  font-weight: 700;
+  opacity: 1;
+  z-index: 2;
+    padding: 5px;
+    margin: 0;
+}
+#wv-customer-favourites .favourite-item .favourite-link {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+@media screen and (max-width: 580px) {
+  #wv-customer-favourites .favourites-grid {
+    justify-content: center;
+  }
+}
+</style>
+
+<div id="wv-customer-favourites">
+  
+  <h1 class="title">Creator Favourites</h1>
+  <div id="creator-favourites-container" class="creator-favourites-grid favourites-grid"></div>
+  
+  <div class='product-favourites'>
+    <h1 class="title">Product Favourites</h1>
+    <div id="product-favourites-container" class="product-favourites-grid favourites-grid"></div>
+  </div>
+</div>
+
+<script>
+
+// for displaying the favourited creators
+document.addEventListener('DOMContentLoaded', async () => {
+  const container = document.getElementById('creator-favourites-container');
+  if (!container) return;
+
+  const allFavourites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const creatorFavourites = allFavourites.filter(item => item.type === 'creator');
+
+  if (creatorFavourites.length === 0) {
+    container.innerHTML = "<p class='empty'>You haven’t added any creator favourites yet.</p>";
+    return;
+  }
+
+  for (const creator of creatorFavourites) {
+    // Remove the domain, keep the path only
+    const url = new URL(creator.url);
+    const path = url.pathname;
+
+    const exists = await checkUrlStatus(path);
+    if (!exists) continue;
+
+    const item = document.createElement('div');
+    item.className = 'favourite-item';
+
+    item.innerHTML = `
+      <a href="${creator.url}" class="favourite-link">
+        <img src="${creator.image}" alt="${creator.name}">
+        <div class="favourite-title"><h5>${creator.name}</h5></div>
+      </a>
+    `;
+
+    container.appendChild(item);
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const container = document.getElementById('product-favourites-container');
+  if (!container) return;
+
+  let allFavourites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+  // Only keep items where type === 'product'
+  let productFavourites = allFavourites.filter(item => item.type === 'product');
+
+  if (productFavourites.length === 0) {
+    container.innerHTML = "<p class='empty'>You haven’t added any product favourites yet.</p>";
+    return;
+  }
+
+  const validProducts = [];
+
+  for (const product of productFavourites) {
+    const handle = product.url.split('/products/')[1]?.split('?')[0]; // extract handle from URL
+
+    if (!handle) continue;
+
+    const inStock = await hasInventory(handle);
+    // console.log(`Does ${product.title} have stock?`, inStock);
+
+    if (inStock) {
+      validProducts.push(product);
+
+      const item = document.createElement('div');
+      item.className = 'favourite-item';
+      item.innerHTML = `
+        <a href="${product.url}" class="favourite-link">
+          <img src="${product.image}" alt="${product.title}">
+          <div class="favourite-title"><h5>${product.title}</h5></div>
+          <div><span>${product.vendor || ''}</span></div>
+        </a>
+      `;
+      container.appendChild(item);
+    } else {
+      console.log(`❌ Removing out-of-stock product: ${product.title}`);
+    }
+  }
+
+  // Update localStorage with only valid products
+  const updatedFavourites = allFavourites.filter(fav =>
+    fav.type !== 'product' || validProducts.some(p => p.url === fav.url)
+  );
+  localStorage.setItem('favorites', JSON.stringify(updatedFavourites));
+
+  // If no valid products left
+  if (validProducts.length === 0) {
+    container.innerHTML = "<p class='empty'>You haven’t added any product favourites yet.</p>";
+  }
+});
+
+
+  
+</script>
+
+
+{% schema %}
+  {
+    "name": "WV Customer Favourites",
+    "settings": [],
+    "presets": [
+      {
+        "name": "WV Customer Favourites",
+      }
+    ]
+  }
+{% endschema %}

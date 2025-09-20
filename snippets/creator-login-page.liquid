@@ -1,0 +1,113 @@
+<style>
+#wv-login-page .title {
+  font-family: var(--main-heading-font-family);
+  font-size: var(--main-heading-font-size);
+}
+#wv-login-page .cta-container {
+  padding: 30px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+#wv-login-page .login-btn {
+  padding: 7px 20px;
+  cursor: pointer;
+  font-size: 14px;
+}
+#wv-login-page .cta-container a {
+  padding: 12px 30px;
+  border-radius: 5px;
+  background: var(--off-black);
+  color: var(--off-white);
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+#wv-login-page .cta-container .sign-up {
+  padding: 12px 30px;
+  border-radius: 5px;
+  background: var(--off-white);
+  color: var(--off-black);
+  font-weight: bold;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  border: 1px solid var(--off-black);
+}
+#wv-login-page .reasons {
+  margin-top: 20px;
+}
+#wv-login-page .reasons ul li {
+  margin-bottom: 20px;
+}
+#wv-login-page .reasons h5 {
+  font-size: 20px;
+}
+#wv-login-page .reasons ul li p {
+  margin: 0;
+  padding: 0;
+}
+#wv-login-page .reasons ul li .reason {
+  font-weight: bold;
+}
+@media screen and (max-width: 580px) {
+  #wv-login-page .cta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #wv-login-page .cta-container .sign-up {
+    padding: 10px 5px;
+    font-size: 15px;
+    margin: 0 auto;
+    width: 60vw;
+    text-align: center;    
+  }
+  #wv-login-page .cta-container > a {
+    padding: 10px 5px;
+    font-size: 15px;
+    margin: 0 auto;
+    width: 60vw;
+    text-align: center;  
+  }
+}
+</style>
+<div id='wv-login-page'>
+  <p><h1 class='title'>Creator Portal</h1></p>
+  <div class='intro'>
+    <p>Your Items. Our Logistics. A Premium Experience.</p>
+  </div>
+  <div class='cta-container'>
+    <a class='sign-up' href='/account'>Sign up</a>
+    <a href='/account'>Log in</a>
+  </div>
+  <div class='reasons'>
+    <h5>What You Get as a Creator</h5>
+    <ul>
+      <li>
+        <p class='reason'>Keep 85% of Every Sale</p>
+        <p class='description'>Set your own prices and cash out via PayPal or Crypto.</p>
+      </li>
+      <li>
+        <p class='reason'>No Admin or Shipping Headaches</p>
+        <p class='description'>We send you a ready-to-go shipping kit. Just pack and drop off.</p>
+      </li>
+      <li>
+        <p class='reason'>Discreet Fulfillment Fully Managed</p>
+        <p class='description'>We handle everything under your creator alias — no real names, no exposure.</p>
+      </li>
+      <li>
+        <p class='reason'>Your Own Branded Creator Page</p>
+        <p class='description'>Share a personal storefront with your fans, complete with your bio, links, and item listings.</p>
+      </li>
+      <li>
+        <p class='reason'>Launch Bonuses for Founding Sellers</p>
+        <p class='description'>Join now and get free starter kits, bonus payouts, and top placement in our homepage rotation.</p>
+      </li>
+    </ul>
+  </div>
+</div>

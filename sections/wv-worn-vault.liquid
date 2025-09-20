@@ -1,0 +1,108 @@
+<style>
+#wv-customer-worn-vault {
+  padding: 1rem 0rem;
+}  
+#wv-customer-worn-vault .title {
+  font-family: var(--main-heading-font-family);
+  font-size: var(--main-heading-font-size);
+}
+#wv-customer-worn-vault .purchased-products {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px; 
+}
+#wv-customer-worn-vault .purchased-products  .product-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 15px -10px black;
+  position: relative;
+  height: 180px;
+  width: 180px;
+  justify-content: flex-end;
+  padding: 10px;
+  border-radius: 5px;
+  background-size: contain;
+  cursor: default;
+}
+#wv-customer-worn-vault .purchased-products  .product-card img {
+  height: 160px;
+  position: absolute;
+  top: 50%;
+  width: fit-content;
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  border-radius: 5px;
+  width: 160px;
+}
+#wv-customer-worn-vault .purchased-products  .product-card h5 {
+  font-size: 15px;
+  color: var(--off-black);
+  margin: 0;
+  padding: 0px 4px;
+}
+#wv-customer-worn-vault .purchased-products  .product-card p {
+  font-size: 15px;
+  color: var(--off-black);
+  margin: 0;
+  padding: 0px 4px;
+}
+@media screen and (max-width: 580px) {
+  #wv-customer-worn-vault .purchased-products {
+    justify-content: center;
+  }
+  #wv-customer-worn-vault .purchased-products .product-card {
+    height: 140px;
+    width: 140px;
+  }
+  #wv-customer-worn-vault .purchased-products  .product-card img {
+    width: 120px;
+    height: 120px;
+  }
+}
+</style>
+<div id='wv-customer-worn-vault'>
+  <h1 class='title'>Worn Vault</h1>
+  {% if customer and customer.orders_count > 0 %}
+    <p>Below are the items that you've collected in your vault.</p>
+    <div class="purchased-products">
+      {% for order in customer.orders %}
+        {% for line_item in order.line_items %}
+          <div class="product-card">
+            <h5>{{ line_item.title }}</h5>
+            <p>{{ line_item.vendor }}</p>
+            {% assign product = line_item.product %}
+            {% if product.featured_image %}
+              <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}" height="120" width="120">
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  {% else %}
+  <style>
+    .no-items-notification {
+      padding: 10px 20px;
+    }
+  </style>
+  <div class='no-items-notification'>
+    <p>Looks like you don't have any items in your vault.</p>
+  </div>
+  {% endif %}
+</div>
+{% schema %}
+  {
+    "name": "WV Customer WornVault",
+    "settings": [],
+    "presets": [
+      {
+        "name": "WV Customer WornVault",
+      }
+    ]
+  }
+{% endschema %}
