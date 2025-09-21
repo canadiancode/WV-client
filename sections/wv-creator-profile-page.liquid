@@ -1,4 +1,10 @@
+{% if customer and page.metafields.custom.owner.value == customer.id %}
+    
+{% elsif customer %}
 
+{% else %}
+    
+{% endif %}
 
 {% schema %}
   {
