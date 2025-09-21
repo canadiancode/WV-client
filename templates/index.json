@@ -1,1 +1,22 @@
-{"sections":{"wv_search_74h9hN":{"type":"wv-search","name":"WV Search","settings":{"columns_desktop":4,"columns_mobile":"2","image_ratio":"adapt","image_shape":"default","show_secondary_image":false,"show_vendor":true,"show_rating":false,"enable_filtering":true,"filter_type":"horizontal","enable_sorting":true,"article_show_date":false,"article_show_author":false,"padding_top":0,"padding_bottom":0}},"wv_homepage_hero_awkc7B":{"type":"wv-homepage-hero","name":"WV Homepage Hero","settings":{}}},"order":["wv_search_74h9hN","wv_homepage_hero_awkc7B"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "wv_public_listings_6GDYNx": {
+      "type": "wv-public-listings",
+      "disabled": true,
+      "name": "WV Public Listings",
+      "settings": {}
+    }
+  },
+  "order": [
+    "wv_public_listings_6GDYNx"
+  ]
+}
