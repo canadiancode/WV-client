@@ -1,9 +1,7 @@
-{% if customer and page.metafields.custom.owner.value == customer.id %}
-    
-{% elsif customer %}
-
+{% if customer %}
+    <p>Logged in</p>
 {% else %}
-
+    <p>Not even logged in bro..</p>
 {% endif %}
 
 {% schema %}
