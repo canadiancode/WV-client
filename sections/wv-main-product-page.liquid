@@ -1,11 +1,16 @@
 {% assign sold_products = customer.metafields.custom.products_sold_by_creator.value %}
 {% assign is_creator = false %}
 {% if customer %}
-  {% for sold_product in sold_products %}
-  {% if sold_product.id == product.id %}
-    {% assign is_creator = true %}
-  {% endif %}
-{% endfor %}
+    {% for sold_product in sold_products %}
+        {% if sold_product.id == product.id %}
+            {% assign is_creator = true %}
+        {% endif %}
+    {% endfor %}
+    {% if is_creator %}
+        <p>This creator is the seller!</p>
+    {% else %}
+        <p>Logged in, but not the seller</p>
+    {% endif %}
 {% else %}
     <p>Not logged in</p>
 {% endif %}
