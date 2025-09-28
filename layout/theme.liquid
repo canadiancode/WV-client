@@ -4,13 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="">
+    <meta name="theme-color" content="{{ settings.color_schemes.first.settings.background | default: '#ffffff' }}">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    {%- comment -%} Favicon and app icons {%- endcomment -%}
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
     {%- endif -%}
 
+    {%- comment -%} Page title with proper formatting {%- endcomment -%}
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -18,11 +21,43 @@
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
+    {%- comment -%} Meta description {%- endcomment -%}
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
+    {% else %}
+      <meta name="description" content="{{ shop.description | default: shop.name | escape }}">
     {% endif %}
 
+    {%- comment -%} Include meta tags snippet {%- endcomment -%}
+    {% render 'meta-tags' %}
+
+    {%- comment -%} Include performance optimization {%- endcomment -%}
+    {% render 'performance-optimization' %}
+
     {{ content_for_header }}
+
+    {%- comment -%} Include structured data snippet {%- endcomment -%}
+    {% render 'structured-data' %}
+
+    {%- comment -%} Google Analytics {%- endcomment -%}
+    {%- if settings.google_analytics_id -%}
+      {% render 'google-analytics', ga_id: settings.google_analytics_id %}
+    {%- endif -%}
+
+    {%- comment -%} Search Console verification {%- endcomment -%}
+    {%- if settings.google_search_console_verification -%}
+      <meta name="google-site-verification" content="{{ settings.google_search_console_verification }}">
+    {%- endif -%}
+
+    {%- comment -%} Bing Webmaster verification {%- endcomment -%}
+    {%- if settings.bing_webmaster_verification -%}
+      <meta name="msvalidate.01" content="{{ settings.bing_webmaster_verification }}">
+    {%- endif -%}
+
+    {%- comment -%} Additional meta tags {%- endcomment -%}
+    {%- if settings.additional_meta_tags -%}
+      {{ settings.additional_meta_tags }}
+    {%- endif -%}
 
     <script>
       if (Shopify.designMode) {
@@ -33,7 +68,12 @@
   </head>
 
   <body>
-    <div id="header-group">
+    {%- comment -%} Skip to content link for accessibility {%- endcomment -%}
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+    
+    <div id="header-group" role="banner">
       {% sections 'header-group' %}
     </div>
 
@@ -44,10 +84,19 @@
       data-page-transition-enabled="{{ settings.page_transition_enabled }}"
       data-product-transition="{{ settings.transition_to_main_product }}"
       data-template="{{ template }}"
+      aria-label="Main content"
     >
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    <div role="contentinfo">
+      {% sections 'footer-group' %}
+    </div>
+
+    {%- comment -%} Hidden accessibility messages {%- endcomment -%}
+    <ul hidden>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+      <li id="a11y-external-message">{{ 'accessibility.link_messages.external' | t }}</li>
+    </ul>
   </body>
 </html>

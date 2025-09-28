@@ -1451,5 +1451,66 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "SEO Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Search Engine Optimization"
+      },
+      {
+        "type": "text",
+        "id": "google_analytics_id",
+        "label": "Google Analytics ID",
+        "info": "Enter your Google Analytics Measurement ID (e.g., G-XXXXXXXXXX)",
+        "placeholder": "G-XXXXXXXXXX"
+      },
+      {
+        "type": "text",
+        "id": "google_search_console_verification",
+        "label": "Google Search Console Verification",
+        "info": "Enter your Google Search Console verification code",
+        "placeholder": "verification_code"
+      },
+      {
+        "type": "text",
+        "id": "bing_webmaster_verification",
+        "label": "Bing Webmaster Verification",
+        "info": "Enter your Bing Webmaster verification code",
+        "placeholder": "verification_code"
+      },
+      {
+        "type": "textarea",
+        "id": "additional_meta_tags",
+        "label": "Additional Meta Tags",
+        "info": "Add any additional meta tags (HTML format)",
+        "placeholder": "<meta name=\"custom\" content=\"value\">"
+      },
+      {
+        "type": "header",
+        "content": "Social Media"
+      },
+      {
+        "type": "text",
+        "id": "social_meta_title",
+        "label": "Social Media Title",
+        "info": "Title for social media sharing (if different from site title)",
+        "placeholder": "{{ shop.name }}"
+      },
+      {
+        "type": "textarea",
+        "id": "social_meta_description",
+        "label": "Social Media Description",
+        "info": "Description for social media sharing",
+        "placeholder": "{{ shop.description }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "social_meta_image",
+        "label": "Social Media Image",
+        "info": "Default image for social media sharing (1200x630px recommended)"
+      }
+    ]
   }
 ]

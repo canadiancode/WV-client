@@ -1,0 +1,87 @@
+{%- comment -%}
+  Performance optimization snippet
+  Usage: {% render 'performance-optimization' %}
+{%- endcomment -%}
+
+{%- comment -%} Preload critical resources {%- endcomment -%}
+{%- unless settings.type_body_font.system? -%}
+  <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+{%- endunless -%}
+{%- unless settings.type_header_font.system? -%}
+  <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+{%- endunless -%}
+
+{%- comment -%} Preload critical images {%- endcomment -%}
+{%- if template contains 'product' and product.featured_media -%}
+  <link rel="preload" as="image" href="{{ product.featured_media | image_url: width: 800 }}">
+{%- elsif template contains 'collection' and collection.featured_image -%}
+  <link rel="preload" as="image" href="{{ collection.featured_image | image_url: width: 800 }}">
+{%- elsif settings.logo -%}
+  <link rel="preload" as="image" href="{{ settings.logo | image_url: width: 200 }}">
+{%- endif -%}
+
+{%- comment -%} DNS prefetch for external resources {%- endcomment -%}
+<link rel="dns-prefetch" href="//cdn.shopify.com">
+<link rel="dns-prefetch" href="//fonts.shopifycdn.com">
+<link rel="dns-prefetch" href="//ajax.googleapis.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="dns-prefetch" href="//www.googletagmanager.com">
+
+{%- comment -%} Preconnect to critical origins {%- endcomment -%}
+<link rel="preconnect" href="//cdn.shopify.com" crossorigin>
+<link rel="preconnect" href="//fonts.shopifycdn.com" crossorigin>
+
+{%- comment -%} Resource hints for performance {%- endcomment -%}
+<link rel="prefetch" href="{{ routes.search_url }}">
+<link rel="prefetch" href="{{ routes.cart_url }}">
+
+{%- comment -%} Critical CSS inline (add your critical CSS here) {%- endcomment -%}
+<style>
+  /* Critical CSS for above-the-fold content */
+  .skip-to-content-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    z-index: 1000;
+    color: white;
+    background: #000;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .skip-to-content-link:focus {
+    top: 6px;
+  }
+  .visually-hidden {
+    position: absolute !important;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+  }
+</style>
+
+{%- comment -%} Lazy loading script for images {%- endcomment -%}
+<script>
+  // Simple lazy loading implementation
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove('lazy');
+          imageObserver.unobserve(img);
+        }
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const lazyImages = document.querySelectorAll('img[data-src]');
+      lazyImages.forEach(img => imageObserver.observe(img));
+    });
+  }
+</script>

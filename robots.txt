@@ -1,0 +1,43 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and checkout pages
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /account/
+Disallow: /search?*
+Disallow: /collections/*?*
+Disallow: /collections/*+*
+Disallow: /collections/*%*
+Disallow: /collections/*&*
+Disallow: /collections/*=*
+Disallow: /collections/*#*
+Disallow: /collections/*?*&*
+Disallow: /collections/*?*%*
+Disallow: /collections/*?*+*
+Disallow: /collections/*?*#*
+Disallow: /collections/*?*&*%*
+Disallow: /collections/*?*&*+*
+Disallow: /collections/*?*&*#*
+Disallow: /collections/*?*%*+*
+Disallow: /collections/*?*%*#*
+Disallow: /collections/*?*+*#*
+Disallow: /collections/*?*&*%*+*
+Disallow: /collections/*?*&*%*#*
+Disallow: /collections/*?*&*+*#*
+Disallow: /collections/*?*%*+*#*
+Disallow: /collections/*?*&*%*+*#*
+
+# Allow important pages
+Allow: /collections/
+Allow: /products/
+Allow: /pages/
+Allow: /blogs/
+Allow: /articles/
+
+# Sitemap
+Sitemap: {{ shop.url }}/sitemap.xml
+
+# Crawl delay (optional - adjust based on server capacity)
+Crawl-delay: 1
