@@ -1,0 +1,192 @@
+{% comment %}
+  Article template section
+{% endcomment %}
+
+<article class="article-template">
+  <div class="article-template__hero-container">
+    {% if article.image %}
+      <div class="article-template__hero-{{ section.settings.image_height }} media"
+           itemprop="image"
+           {% if section.settings.image_height == 'adapt' and article.image %} style="padding-bottom: {{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;"{% endif %}
+      >
+        <img srcset="{%- if article.image.width >= 350 -%}{{ article.image | image_url: width: 350 }} 350w,{%- endif -%}
+                     {%- if article.image.width >= 750 -%}{{ article.image | image_url: width: 750 }} 750w,{%- endif -%}
+                     {%- if article.image.width >= 1100 -%}{{ article.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                     {%- if article.image.width >= 1500 -%}{{ article.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                     {%- if article.image.width >= 2200 -%}{{ article.image | image_url: width: 2200 }} 2200w,{%- endif -%}
+                     {%- if article.image.width >= 3000 -%}{{ article.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                     {{ article.image | image_url }} {{ article.image.width }}w"
+             sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+             src="{{ article.image | image_url: width: 1100 }}"
+             loading="eager"
+             width="{{ article.image.width }}"
+             height="{{ article.image.height }}"
+             alt="{{ article.image.alt | escape }}">
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="article-template__content page-width page-width--narrow rte">
+    <header class="article-template__header">
+      <h1 class="article-template__title">{{ article.title }}</h1>
+      
+      {% if section.settings.show_date or section.settings.show_author %}
+        <div class="article-template__meta">
+          {% if section.settings.show_date %}
+            <time class="article-template__published-date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+              {{ article.published_at | date: '%B %d, %Y' }}
+            </time>
+          {% endif %}
+          
+          {% if section.settings.show_author and article.author != blank %}
+            <span class="article-template__author">by {{ article.author }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </header>
+
+    <div class="article-template__body">
+      {{ article.content }}
+    </div>
+
+    {% if section.settings.show_tags and article.tags.size > 0 %}
+      <div class="article-template__tags">
+        <span class="article-template__tags-label">{{ 'blogs.article.tags' | t }}:</span>
+        {% for tag in article.tags %}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article-template__tag">
+            {{ tag }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "header",
+      "content": "Article information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_image",
+      "name": "Featured image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "image_height",
+          "label": "Image height",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ],
+          "default": "adapt"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "blog_show_date",
+          "label": "Show date",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_author",
+          "label": "Show author",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "share_label",
+          "label": "Share label",
+          "default": "Share"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1,
+      "settings": []
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,136 @@
+{
+  "article": [],
+  "blog": [],
+  "collection": [],
+  "company": [],
+  "company_location": [],
+  "location": [],
+  "market": [],
+  "order": [],
+  "page": [
+    {
+      "key": "page_of_creator",
+      "namespace": "custom",
+      "name": "Page of Creator",
+      "description": "The Content Creator's page.",
+      "type": {
+        "name": "customer_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "creator_display_name",
+      "namespace": "custom",
+      "name": "Creator display name",
+      "description": "The display name of the creator (copied from the customer metafield)",
+      "type": {
+        "name": "single_line_text_field",
+        "category": "TEXT"
+      }
+    },
+    {
+      "key": "social_links",
+      "namespace": "custom",
+      "name": "Creator social links",
+      "description": "Links to other social channels (TikTok, OnlyFans, etc) (copied from the customer metafield)",
+      "type": {
+        "name": "list.url",
+        "category": "URL"
+      }
+    },
+    {
+      "key": "creator_profile_background_image",
+      "namespace": "custom",
+      "name": "Creator profile background image",
+      "description": "The creators profile background image (copied from the customer metafield)",
+      "type": {
+        "name": "file_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "creator_profile_picture",
+      "namespace": "custom",
+      "name": "Creator profile picture",
+      "description": "The profile picture of the creator (copied from the customer metafield)",
+      "type": {
+        "name": "file_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "creator_short_bio",
+      "namespace": "custom",
+      "name": "Creator short bio",
+      "description": "A short bio provided by the creator (copied from the customer metafield)",
+      "type": {
+        "name": "multi_line_text_field",
+        "category": "TEXT"
+      }
+    },
+    {
+      "key": "products_sold_by_creator",
+      "namespace": "custom",
+      "name": "Products sold by Creator",
+      "description": "The list of products that are sold by the linked creator (copied from the customer metafield)",
+      "type": {
+        "name": "list.product_reference",
+        "category": "REFERENCE"
+      }
+    }
+  ],
+  "product": [
+    {
+      "key": "size",
+      "namespace": "shopify",
+      "name": "Size",
+      "description": "Used to specify the size of a product, such as 0-3 months or Extra large (XL)",
+      "type": {
+        "name": "list.metaobject_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "last_worn_date",
+      "namespace": "custom",
+      "name": "Last worn date",
+      "description": "",
+      "type": {
+        "name": "date",
+        "category": "DATE_TIME"
+      }
+    },
+    {
+      "key": "links_to_online_content",
+      "namespace": "custom",
+      "name": "Links to online content",
+      "description": "",
+      "type": {
+        "name": "list.url",
+        "category": "URL"
+      }
+    },
+    {
+      "key": "from_content_creator",
+      "namespace": "custom",
+      "name": "From content creator",
+      "description": "The content creator selling the item",
+      "type": {
+        "name": "customer_reference",
+        "category": "REFERENCE"
+      }
+    },
+    {
+      "key": "content_creator_page",
+      "namespace": "custom",
+      "name": "Content creator page",
+      "description": "The /pages/ link to the Content Creator's profile",
+      "type": {
+        "name": "page_reference",
+        "category": "REFERENCE"
+      }
+    }
+  ],
+  "variant": [],
+  "shop": []
+}
